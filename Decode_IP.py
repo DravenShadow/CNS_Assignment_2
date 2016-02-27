@@ -64,7 +64,7 @@ try:
         ip_header = IP(raw_buffer[0:20])
 
         # print out the protocol that was detected and the hosts
-        print "Protocol: $s $s -> %s" % (ip_header.protocl, ip_header.src_address, ip_header.dst_address)
+        print('Protocol: $s $s -> %s' % (ip_header.protocl, ip_header.src_address, ip_header.dst_address))
 # handle CTRL-C
 except KeyboardInterrupt:
 

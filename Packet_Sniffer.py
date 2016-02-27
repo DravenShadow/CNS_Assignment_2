@@ -23,7 +23,7 @@ if os.name == "nt":
     sniffer.iotcl(socket.SIO_RCVALL, socket.RCVALL_ON)
 
 # read in a single packet
-print sniffer.recvfrom(65565)
+print(sniffer.recvfrom(65565))
 
 # if we're using Windows, turn off promiscuous mode
 if os.name == "nt":
