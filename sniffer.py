@@ -1,3 +1,10 @@
+"""
+        Author: Rowland DePree              sniffer.py
+
+        This is a program designed as an packet sniffer.  It will decode all incoming traffic as well as alert the user if
+        the packet is using an port that is marked as dangerous.  The genral idea for this code came from Black Hat Python
+        by Justin Seitiz.
+"""
 import ctypes
 import winsound
 from os import name
@@ -14,14 +21,27 @@ host = "192.168.1.7"
 
 
 def unencrypted_comm(port_num):
-    if port_num == 15329:
+    """
+    A method used to check if the port is unencrypted and if so alert the user
+    :param port_num:
+    :return:
+    """
+    if port_num == 23 or port_num == 8014:
         freq = 2500
         dur = 1000
         winsound.Beep(freq, dur)
-        msgbox("Packet on unencrypted port!", "POSSIBLE ATTACK")
+        msgbox("Packet on unencrypted port %s \nCheck Attack_Packet.txt file for more info" % port_num,
+               "POSSIBLE ATTACK")
+        return True
+    else:
+        return False
 
 
 def main():
+    """
+    Main part of the program.  This is where it reads in and decodes all packet traffic
+    :return:
+    """
     if name == "nt":
         socket_protocol = IPPROTO_IP
     else:
@@ -56,7 +76,13 @@ def main():
 
                 tcp_header = TCP(buf)
 
-                unencrypted_comm(tcp_header.dstport)
+                attack = unencrypted_comm(tcp_header.dstport)
+                if attack:
+                    file = open('Attack_Packet.txt', 'w')
+                    file.write("Protocol: TCP")
+                    file.write("\tSource: %s" % ip_header.src_address)
+                    file.write("\tDestination Port: %s\n" % tcp_header.dstport)
+                    file.close()
 
                 print("TCP -> Source Port: %d Dest Port: %d" % (tcp_header.srcport, tcp_header.dstport))
 
@@ -66,7 +92,14 @@ def main():
 
                 udp_header = UDP(buf)
 
-                unencrypted_comm(udp_header.dstport)
+                attack = unencrypted_comm(udp_header.dstport)
+
+                if attack:
+                    file = open('Attack_Packet.txt', 'w')
+                    file.write("Protocol: TCP")
+                    file.write("\tSource: %s" % ip_header.src_address)
+                    file.write("\tDestination Port: %s\n" % tcp_header.dstport)
+                    file.close()
 
                 print("UDP -> Source Port: %d Dest Port: %d" % (udp_header.srcport, udp_header.dstport))
 
@@ -75,5 +108,8 @@ def main():
             sniffer.ioctl(SIO_RCVALL, RCVALL_OFF)
 
 
+'''
+    Starts the program
+'''
 if __name__ == "__main__":
     main()
