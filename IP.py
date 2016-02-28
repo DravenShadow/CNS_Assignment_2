@@ -12,7 +12,10 @@ from ctypes import *
 
 class IP(Structure):
     """
+    A class to structure an IP packet
 
+    :param Structure:
+    :return:
     """
     _fields_ = [
         ("ihl", c_ubyte, 4),
