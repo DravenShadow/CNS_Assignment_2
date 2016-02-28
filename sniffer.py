@@ -1,6 +1,8 @@
 import os
 import socket
+from _ctypes import *
 
+import ICMP
 from IP import IP
 
 host = "192.168.1.7"
@@ -25,6 +27,14 @@ try:
         ip_header = IP(raw_buffer[0:20])
 
         print("Protocol: %s %s -> %s" % (ip_header.protocol, ip_header.src_address, ip_header.dst_address))
+
+        if ip_header.protocol == "ICMP":
+            offset = ip_header.ihl * 4
+            buf = raw_buffer[offset:offset + sizeof(ICMP)]
+
+            icmp_header = ICMP(buf)
+
+            print("ICMP -> Type: %d Code: %d" % (icmp_header.type, icmp_header.code))
 except KeyboardInterrupt:
     if os.name == "nt":
         sniffer.ioctl(socket.SIO_RCVALL, socket.RCVALL_OFF)
