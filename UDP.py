@@ -1,8 +1,7 @@
 """
         Author : Rowland DePree             UDP.py
 
-        A program designed to form the structure of an UDP packet.  The original idea for this code came from Black Hat Python
-        by Justin Seitiz.
+        A program designed to form the structure of an UDP packet.
 """
 
 
