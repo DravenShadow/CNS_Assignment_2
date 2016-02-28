@@ -2,7 +2,7 @@
         Author: Rowland DePree              sniffer.py
 
         This is a program designed as an packet sniffer.  It will decode all incoming traffic as well as alert the user if
-        the packet is using an port that is marked as dangerous.  The genral idea for this code came from Black Hat Python
+        the packet is using an port that is marked as dangerous.  The original idea for this code came from Black Hat Python
         by Justin Seitiz.
 """
 import ctypes

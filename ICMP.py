@@ -1,7 +1,8 @@
 """
         Author : Rowland DePree             ICMP.py
 
-        A program designed to form the structure of an ICMP packet
+        A program designed to form the structure of an ICMP packet.  The original idea for this code came from Black Hat Python
+        by Justin Seitiz.
 """
 
 from ctypes import *
