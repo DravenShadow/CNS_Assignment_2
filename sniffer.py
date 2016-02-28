@@ -4,6 +4,8 @@ from socket import IPPROTO_IP, SOCK_RAW, RCVALL_ON, SIO_RCVALL, IPPROTO_ICMP, RC
 
 from ICMP import ICMP
 from IP import IP
+from TCP import TCP
+from UDP import UDP
 
 host = "192.168.1.7"
 
@@ -37,6 +39,21 @@ def main():
                 icmp_header = ICMP(buf)
 
                 print("ICMP -> Type: %d Code: %d" % (icmp_header.type, icmp_header.code))
+            if ip_header.protocol == "TCP":
+                offset = ip_header.ihl * 4
+                buf = raw_buffer[offset:offset + ctypes.sizeof(TCP)]
+
+                tcp_header = TCP(buf)
+
+                print("TCP -> Source Port: %d Dest Port: %d" % (tcp_header.srcport, tcp_header.dstport))
+
+            if ip_header.protocol == "UDP":
+                offset = ip_header.ihl * 4
+                buf = raw_buffer[offset:offset + ctypes.sizeof(UDP)]
+
+                udp_header = UDP(buf)
+
+                print("UDP -> Source Port: %d Dest Port: %d" % (udp_header.srcport, udp_header.dstport))
     except KeyboardInterrupt:
         if name == "nt":
             sniffer.ioctl(SIO_RCVALL, RCVALL_OFF)
