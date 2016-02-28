@@ -1,9 +1,17 @@
+"""
+        Author : Rowland DePree             UDP.py
+
+        A program designed to form the structure of an UDP packet.  The original idea for this code came from Black Hat Python
+        by Justin Seitiz.
+"""
+
+
 from ctypes import *
 
 
 class UDP(Structure):
     """
-    A class to structure an ICMP packet
+    A class to structure an UDP packet
 
     :param Structure:
     :return:
@@ -17,7 +25,7 @@ class UDP(Structure):
 
     def __init__(self, socket_buffer):
         """
-
+        Constructor
         :param socket_buffer:
         :return:
         """
@@ -25,7 +33,7 @@ class UDP(Structure):
 
     def __new__(self, socket_buffer):
         """
-
+        Forms the structure of the packet from the parameter
         :param socket_buffer:
         :return:
         """
