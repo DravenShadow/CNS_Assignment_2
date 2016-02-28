@@ -11,14 +11,14 @@ from IP import IP
 
 host = "192.168.1.7"
 
-subnet = "192.168.0.0/24"
+subnet = "192.168.1.0/24"
 
 magic_message = "PYTHONRULES!"
 
 
 def udp_sender(subnet, magic_message):
     time.sleep(5)
-    sender = socket.socket(socket.AF_INENT, socket.SOCK_DGRAM)
+    sender = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     for ip in IPNetwork(subnet):
         try:
@@ -47,7 +47,7 @@ def main():
 
             ip_header = IP(raw_buffer[0:20])
 
-            print("Protocol: %s %s -> %s" % (ip_header.protocol, ip_header.src_address, ip_header.dst_address))
+            # print("Protocol: %s %s -> %s" % (ip_header.protocol, ip_header.src_address, ip_header.dst_address))
 
             if ip_header.protocol == "ICMP":
                 offset = ip_header.ihl * 4
@@ -55,7 +55,7 @@ def main():
 
                 icmp_header = ICMP(buf)
 
-                print("ICMP -> Type: %d Code: %d" % (icmp_header.type, icmp_header.code))
+                # print("ICMP -> Type: %d Code: %d" % (icmp_header.type, icmp_header.code))
 
                 if icmp_header.code == 3 and icmp_header.type == 3:
                     if IPAddress(ip_header.src_address) in IPNetwork(subnet):
