@@ -1,11 +1,19 @@
+"""
+        Author : Rowland DePree             TCP.py
+
+        A program designed to form the structure of an IP packet.   The original idea for this code came from Black Hat Python
+        by Justin Seitiz.
+"""
+
 import socket
 import struct
 from ctypes import *
 
-host = "192.168.0.7"
-
 
 class IP(Structure):
+    """
+
+    """
     _fields_ = [
         ("ihl", c_ubyte, 4),
         ("version", c_ubyte, 4),
@@ -21,6 +29,11 @@ class IP(Structure):
     ]
 
     def __init__(self, socket_buffer=None):
+        """
+        Constructor; Also maps the protocol the packet uses.
+        :param socket_buffer:
+        :return:
+        """
         self.protocol_map = {1: "ICMP", 2: "IGMP", 6: "TCP", 17: "UDP", 41: "ENCAP", 89: "OSPF", 132: "SCTP"}
         self.src_address = socket.inet_ntoa(struct.pack("<L", self.src))
         self.dst_address = socket.inet_ntoa(struct.pack("<L", self.dst))
@@ -30,4 +43,9 @@ class IP(Structure):
             self.protocol = str(self.protocol_num)
 
     def __new__(self, socket_buffer=None):
+        """
+        Forms the structure of the packet from the parameter
+        :param socket_buffer:
+        :return:
+        """
         return self.from_buffer_copy(socket_buffer)

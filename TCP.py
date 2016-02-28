@@ -4,8 +4,6 @@
         A program designed to form the structure of an TCP packet.
 """
 
-
-
 from ctypes import *
 
 
